@@ -1,0 +1,348 @@
+*********************
+
+TAX LAB
+
+Country X calculates tax for its citizens using a graduated scale rate as shown below:
+
+    Yearly Income: 0 - 1000
+
+    Tax Rate: 0%
+
+    Yearly Income: 1,001 - 10,000
+
+    Tax Rate: 10%
+
+    Yearly Income: 10,001 - 20,200
+
+    Tax Rate: 15%
+
+    Yearly Income: 20,201 - 30,750
+
+    Tax Rate: 20%
+
+    Yearly Income: 30,751 - 50,000
+
+    Tax Rate: 25%
+
+    Yearly Income: Over 50,000
+
+    Tax Rate: 30%
+
+Write a Python function named calculate_tax that will take as an argument, a dictionary containing key-value pairs of people's names as the keys and their yearly incomes as the values.
+
+The function should return a dictionary containing key-value pairs of the same people’s names as keys and their yearly tax bill as the values. For example, given the sample input below:
+
+{
+    ‘Alex’: 500,
+    ‘James’: 20500,
+    ‘Kinuthia’: 70000
+}
+
+The output would be as follows:
+
+{
+    ‘Alex’: 0,
+    ‘James’: 2490,
+    ‘Kinuthia’: 15352.5
+}
+
+The tax for James would be calculated as follows:
+
+    The first 1000 (1000 - 0)
+
+    Calculation: 1,000 * 0%
+
+    Tax: 0
+
+    The next 9000 (10,000 - 1,000)
+
+    Calculation: 9,000 * 10%
+
+    Tax: 900
+
+    The next 10,200 (20,200 -10,000)
+
+    Calculation: 10,200 * 15%
+
+    Tax: 1530
+
+    The remaining 300 (20,500 - 20,200)
+
+    Calculation: 300 * 20%
+
+    Tax: 60
+
+    Total Income: 20,500
+
+    Total Tax: 0 + 900 + 1530 + 60 = 2490
+
+
+---------------------- SOLUTION TAX LAB ----------------------
+
+def calculate_tax(people):
+    result = {}
+    totaltax = 0;
+    if not isinstance(people, dict):
+        raise ValueError
+    for person in people:
+        salary = people[person]
+        if not isinstance(people[person], (int, float)):
+            raise ValueError
+        if salary in range(0, 1000 + 1):
+            totaltax = 0
+        if salary in range(1001, 10000 + 1):
+            tax1 = (0.1 * 9000)
+            totaltax = tax1
+        if salary in range(10001, 20200 + 1):
+            tax1 = (0.1 * 9000)
+            tax2 = (0.15 * (salary - 10000))
+            totaltax = tax1 + tax2
+        if salary in range(20201, 30751):
+            tax1 = (0.1 * 9000)
+            tax2 = (0.15 * (20201 - 10001))
+            tax3 = (0.2 * (salary - 20200))
+            totaltax = tax1 + tax2 + tax3
+        if salary in range(30751, 50001):
+            tax1 = (0.1 * 9000)
+            tax2 = (0.15 * (20201 - 10001))
+            tax3 = (0.2 * (30751 - 20201))
+            tax4 = (0.25 * (salary - 30750))
+            totaltax = tax1 + tax2 + tax3 + tax4
+        if salary > 50000:
+            tax1 = (0.1 * 9000)
+            tax2 = (0.15 * (20201 - 10001))
+            tax3 = (0.2 * (30751 - 20201))
+            tax4 = (0.25 * (50001 - 30751))
+            tax5 = (0.30 * (salary - 50000))
+            totaltax = tax1 + tax2 + tax3 + tax4 + tax5
+        result.update({person: totaltax})
+    return result
+
+---------------------- END OF SOLUTION TAX LAB ----------------------
+
+    
+*********************
+
+OBJECT ORIENTED LAB
+
+    Create a class called BankAccount that has the methods withdraw and deposit with no implementation.
+
+    Create a class called SavingsAccount that inherits from BankAccount. SavingsAccount should have a constructor that only takes in a self argument. This constructor sets a property called balance to 500. (This should be the minimum balance at any given time).
+        In the SavingsAccount class, implement the deposit method that takes in cash deposit amounts, updates the balance accordingly and then returns the balance. For a negative deposit amounts, return Invalid deposit amount.
+        In the SavingsAccount class, implement the withdraw method that takes in the cash withdrawal amount, deducts this amount from the current balance and returns the balance. This method should NEVER allow the balance to get below 500. (Check for this condition and output Cannot withdraw beyond the minimum account balance if it happens). Also, output Cannot withdraw beyond the current account balance if withdrawal amount is greater than current balance. For a negative withdrawal amount, return Invalid withdraw amount.
+
+    Create a class called CurrentAccount that inherits from BankAccount. CurrentAccount should have a constructor that only takes in the self argument and sets a property called balance to 0.
+        In the CurrentAccount class, implement a deposit method that takes in cash deposit amounts, updates the balance accordingly and then returns the balance. For a negative deposit amount, return Invalid deposit amount.
+        In the CurrentAccount class, implement a withdraw method that takes in the cash withdrawal amount, deducts this amount from the current balance and returns the balance. For a negative withdrawal amount, return Invalid withdraw amount. Withdrawing more than the current balance should fail with message Cannot withdraw beyond the current account balance
+
+
+
+---------------------- SOLUTION OOP LAB----------------------
+
+class BankAccount(object):
+    def withdraw():
+        pass
+
+    def deposit():
+        pass
+
+
+class SavingsAccount(BankAccount):
+    def __init__(self):
+        self.balance = 500
+
+    def deposit(self, amount):
+        if amount < 0:
+            return "Invalid deposit amount"
+        else:
+            self.balance += amount
+            return self.balance
+
+    def withdraw(self, amount):
+        if amount < 0:
+            return "Invalid withdraw amount"
+        elif amount > self.balance:
+            return "Cannot withdraw beyond the current account balance"
+        elif (self.balance - amount) < 500:
+            return "Cannot withdraw beyond the minimum account balance"
+        else:
+            self.balance -= amount
+            return self.balance
+
+
+class CurrentAccount(BankAccount):
+    def __init__(self):
+        self.balance = 0
+
+    def deposit(self, amount):
+        if amount < 0:
+            return "Invalid deposit amount"
+        else:
+            self.balance += amount
+            return self.balance
+
+    def withdraw(self, amount):
+        if amount < 0:
+            return "Invalid withdraw amount"
+        elif self.balance < amount:
+            return "Cannot withdraw beyond the current account balance"
+        else:
+            self.balance -= amount
+
+---------------------- END OF SOLUTION OOP LAB ----------------------
+
+
+*********************
+
+DATA STRUCTURES LAB
+
+Write a function called manipulate_data which will act as follows:
+
+When given a list of integers, return a list, where the first element is the count of positives numbers and the second element is the sum of negative numbers.
+
+NB: Treat 0 as positive.
+
+
+
+---------------------- SOLUTION DATA STRUCTURES LAB ----------------------
+
+def manipulate_data(ls):
+    if type(ls) is list:
+        final_list = []
+        count_pos = 0
+        sum_neg = 0
+        for i in ls:
+            if i >= 0:
+                count_pos += 1
+            elif i < 0:
+                sum_neg += i
+        final_list.append(count_pos)
+        final_list.append(sum_neg)
+        return final_list
+    elif type(ls) is not ls:
+        return ("Only lists allowed")
+    else:
+        return ("Only lists allowed")
+
+---------------------- END OF SOLUTION DATA STRUCTURES LAB ----------------------
+
+*********************
+
+ALGORITHMS LAB
+
+Create a function called binary_converter. Inside the function, implement an algorithm to convert decimal numbers between 0 and 255 to their binary equivalents.
+
+For any invalid input, return string Invalid input
+
+Example: For number 5 return string 101
+
+
+
+---------------------- SOLUTION ALGORITHMS LAB ----------------------
+
+def binary_converter(n):
+    if n == 0:
+        return '0'
+    elif n < 0 or n > 255:
+        return 'Invalid input'
+    else:
+        #ans = int(bin(n)[2:])
+        ans = bin(n)[2:]
+        return ans
+
+---------------------- END OF SOLUTION ALGORITHMS LAB ----------------------
+
+
+*********************
+
+RECURSION LAB
+
+You need to design an iterative and a recursive function called replicate_iter and replicate_recur respectively which will receive two arguments: times which is the number of times to repeat and data which is the number or string to be repeated.
+
+The function should return an array containing repetitions of the data argument. For instance, replicate_recur(3, 5) or replicate_iter(3,5) should return [5,5,5]. If the times argument is negative or zero, return an empty array. If the argument is invalid, raise a ValueError.
+
+
+---------------------- SOLUTION RECURSION LAB ----------------------
+
+#!/usr/bin/env python
+
+def replicate_recur(times, data):
+    if not isinstance(times, int):
+        raise ValueError
+    if(data==[]):
+        raise ValueError
+    if times <= 0:
+        return []
+    res = replicate_recur(times -1, data)
+    res.append(data)
+    return res
+
+def replicate_iter(times, data):
+    if not isinstance(times, int):
+        raise ValueError
+    if(data==[]):
+        raise ValueError
+    res = []
+    for i in range(times):
+        res.append(data)
+    return res
+    times, data = (3, 5)
+    try:
+        return replicate_recur(times, data)
+    except ValueError:
+        print ("Wrong 'a' type")
+    try:
+        return replicate_iter(times, data)
+    except ValueError:
+        print ("Wrong 'a' type")
+
+
+---------------------- END OF SOLUTION RECURSION LAB ----------------------
+
+
+*********************
+
+MOVIE LAB
+
+According to the description of R-rated films: Children under 17 require an accompanying parent or adult guardian (age 21 or older) and adults 25 years and under must show ID. And children under the age of 6 are not allowed in after 6:00pm.
+
+Deadpool is an R-rated movie.
+
+Write a JavaScript function named canIWatch that will take age as a parameter.
+
+If the age is less than 6, return You are not allowed to watch Deadpool after 6.00pm.
+
+If the age is 6 or more but less than 17, return You must be accompanied by a guardian who is 21 or older.
+
+If the age is 17 or more but less than 25, return You are allowed to watch Deadpool, right after you show some ID.
+
+If the age is 25 or greater, return Yay! You can watch Deadpool with no strings attached!.
+
+If the age is invalid, return Invalid age.
+
+
+---------------------- SOLUTION MOVIE LAB ----------------------
+
+
+var canIWatch = function (age) {
+    if (age < 6 && age >= 0) {
+        return "You are not allowed to watch Deadpool after 6.00pm.";
+    }
+    else if (age >= 6 && age < 17) {
+        return "You must be accompanied by a guardian who is 21 or older.";
+    }
+    else if (age >= 17 && age < 25) {
+        return "You are allowed to watch Deadpool, right after you show some ID.";
+    }
+    else if (age >= 25) {
+        return "Yay! You can watch Deadpool with no strings attached!";
+    }
+    else if (age < 0){
+        return "Invalid age.";
+    }
+    else {
+        return "Invalid age.";
+    }
+};
+
+---------------------- END OF SOLUTION MOVIE LAB ----------------------
